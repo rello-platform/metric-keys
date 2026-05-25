@@ -16,8 +16,14 @@
 // (Rello src/lib/admin/alert-categories.ts) — structural discipline, NOT its keys
 // (that camelCase AlertRule namespace is a SEPARATE vocabulary, out of scope).
 //
-// COUNTS: 189 exact + 21 families. See README for provenance + the 17 EXCLUDED
-// five-token lead-scoring keys (DISCOVERED prod bug — write-rejected, not canonical).
+// COUNTS: 201 exact + 21 families. See README for provenance + the 20 EXCLUDED
+// five-token keys (DISCOVERED prod bug — write-rejected, not canonical).
+//
+// v0.2.0 (RECONCILE verified-safe bundle): +12 EXACT from partnerships-compliance.ts
+// (lead-share-audit.* 6 + referral-edge.* 6) — the v0.1.0 SEED omitted that calculator
+// (factory-shorthand `return [{ metricKey, … }]` writes a naive grep missed). Registered
+// as EXACT (NOT families) so the 3 sibling 5-token `lead-share-audit.by-actor-type.*`
+// keys stay flagged in shadow rather than masked by a `lead-share-audit.` family prefix.
 
 export interface MetricKeyEntry {
   /** Lifecycle of the key in the canonical registry. Room for tier/owner later. */
@@ -34,11 +40,12 @@ export interface MetricKeyFamily {
   readonly description: string;
 }
 
-// ── EXACT_REGISTRY — the 189 statically-known emitted literals ──────────────
+// ── EXACT_REGISTRY — the 201 statically-known emitted literals ──────────────
 // (169 Rello calculator single-line literals MINUS 17 five-token violators
 //  PLUS 1 multi-line literal volume-anomalies-7d.count = 152;
 //  + 6 mrr + 1 tenant-milo + 6 per-engine-alerts concretes + 23 engine-side cron
-//  = 189.) Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
+//  = 189; + 12 partnerships-compliance.ts v0.2.0 = 201.)
+//  Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
 const EXACT_REGISTRY_RAW = {
   "alerts.active-rules.count": { lifecycle: "active" },
   "alerts.fired-today.count": { lifecycle: "active" },
@@ -142,6 +149,12 @@ const EXACT_REGISTRY_RAW = {
   "lead-scoring.hh-intent.distribution.30d": { lifecycle: "active" },
   "lead-scoring.hh-intent.per-tenant-override.count": { lifecycle: "active" },
   "lead-scoring.hh-intent.scored-leads.total": { lifecycle: "active" },
+  "lead-share-audit.created.30d.count": { lifecycle: "active" },
+  "lead-share-audit.created.7d.count": { lifecycle: "active" },
+  "lead-share-audit.permission-changed.7d.count": { lifecycle: "active" },
+  "lead-share-audit.restored.7d.count": { lifecycle: "active" },
+  "lead-share-audit.revoked.30d.count": { lifecycle: "active" },
+  "lead-share-audit.revoked.7d.count": { lifecycle: "active" },
   "lead-shares.active.count": { lifecycle: "active" },
   "lead-shares.by-permission.full.count": { lifecycle: "active" },
   "lead-shares.by-permission.limited.count": { lifecycle: "active" },
@@ -189,6 +202,12 @@ const EXACT_REGISTRY_RAW = {
   "platform-settings.blocked-ip.count": { lifecycle: "active" },
   "platform-settings.feature-flag.count": { lifecycle: "active" },
   "provisioning.failures-24h.count": { lifecycle: "active" },
+  "referral-edge.confirmed.30d.count": { lifecycle: "active" },
+  "referral-edge.confirmed.7d.count": { lifecycle: "active" },
+  "referral-edge.detected.30d.count": { lifecycle: "active" },
+  "referral-edge.detected.7d.count": { lifecycle: "active" },
+  "referral-edge.outcome-converted.7d.count": { lifecycle: "active" },
+  "referral-edge.outcome-lost.7d.count": { lifecycle: "active" },
   "referrals.confirmed.30d.count": { lifecycle: "active" },
   "referrals.created.30d.count": { lifecycle: "active" },
   "reply-autosend.outcomes.24h": { lifecycle: "active" },

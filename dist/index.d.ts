@@ -318,6 +318,24 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "lead-scoring.hh-intent.scored-leads.total": {
         readonly lifecycle: "active";
     };
+    readonly "lead-share-audit.created.30d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.created.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.permission-changed.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.restored.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.revoked.30d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.revoked.7d.count": {
+        readonly lifecycle: "active";
+    };
     readonly "lead-shares.active.count": {
         readonly lifecycle: "active";
     };
@@ -457,6 +475,24 @@ declare const EXACT_REGISTRY_RAW: {
         readonly lifecycle: "active";
     };
     readonly "provisioning.failures-24h.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "referral-edge.confirmed.30d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "referral-edge.confirmed.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "referral-edge.detected.30d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "referral-edge.detected.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "referral-edge.outcome-converted.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "referral-edge.outcome-lost.7d.count": {
         readonly lifecycle: "active";
     };
     readonly "referrals.confirmed.30d.count": {
