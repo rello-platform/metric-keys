@@ -1,0 +1,41 @@
+{
+  "name": "@rello-platform/metric-keys",
+  "version": "0.1.0",
+  "description": "Canonical PlatformMetricSnapshot metricKey registry for the Rello platform — exact emitted literals + interpolated family prefixes + listActiveMetricKeys() SOT primitive.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "comment:exports": "Single-format ESM ON PURPOSE (slugs/signals precedent). CJS consumers require() this entry; Node >=22 require(esm) loads it (no top-level await) and every transitive import resolves via ESM. We expose the SAME ESM file under import/require/default so a CJS consumer cannot crash with ERR_PACKAGE_PATH_NOT_EXPORTED. (feedback-esm-only-rello-package-into-cjs-add-require-condition-not-dual-build.)",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:rello-platform/metric-keys"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
