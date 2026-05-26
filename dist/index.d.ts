@@ -66,6 +66,9 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "closing.fallthrough-rate.30d": {
         readonly lifecycle: "active";
     };
+    readonly "closing.gci.30d": {
+        readonly lifecycle: "active";
+    };
     readonly "closing.risk-distribution.green": {
         readonly lifecycle: "active";
     };
@@ -73,6 +76,12 @@ declare const EXACT_REGISTRY_RAW: {
         readonly lifecycle: "active";
     };
     readonly "closing.risk-distribution.yellow": {
+        readonly lifecycle: "active";
+    };
+    readonly "closing.units.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "closing.volume.30d": {
         readonly lifecycle: "active";
     };
     readonly "comms.bounce-rate.platform": {

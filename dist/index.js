@@ -16,7 +16,7 @@
 // (Rello src/lib/admin/alert-categories.ts) — structural discipline, NOT its keys
 // (that camelCase AlertRule namespace is a SEPARATE vocabulary, out of scope).
 //
-// COUNTS: 221 exact + 21 families. See README for provenance.
+// COUNTS: 224 exact + 21 families. See README for provenance.
 //
 // v0.2.0 (RECONCILE verified-safe bundle): +12 EXACT from partnerships-compliance.ts
 // (lead-share-audit.* 6 + referral-edge.* 6) — the v0.1.0 SEED omitted that calculator
@@ -34,13 +34,26 @@
 //   lead-scoring.hh-intent.temperature.<b>.30d            → lead-scoring.hh-intent.temperature-<b>.30d
 //   lead-scoring.hh-intent.intent-type.<b>.30d            → lead-scoring.hh-intent.intent-<b>.30d
 //   lead-share-audit.by-actor-type.<actor>.7d.count       → lead-share-audit.by-actor-<actor>.7d.count
-// ── EXACT_REGISTRY — the 221 statically-known emitted literals ──────────────
+//
+// v0.4.0 (Closing Co-Pilot Wave H Phase 4 — tenant-grain trend precompute): +3 EXACT
+// brokerage-wide GCI/volume/units 30d trend keys emitted by closingCalculator
+// (Rello src/lib/metrics/calculators/closing.ts), dual-emit platform-wide + per-
+// customer-tenant. The single warranted Wave-H precompute (H8 lock): per-agent/team/
+// branch reporting stays LIVE because the 4-token metricKey cap + the composite-unique
+// (metricKey, tenantId, capturedAt) have NO agent/team/branch axis — only tenant-grain
+// trend keys are namespace-legal. Deal-level sourced (contractPrice / GROSS ledger /
+// deal count) to side-step the Phase-1 dual-in-house double-count.
+//   closing.gci.30d    — Σ CommissionLedgerEntry GROSS lines for 30d CLOSING_COMPLETED deals
+//   closing.volume.30d — Σ ClosingTransaction.contractPrice for those deals
+//   closing.units.30d  — count of those deals
+// ── EXACT_REGISTRY — the 224 statically-known emitted literals ──────────────
 // (169 Rello calculator single-line literals MINUS 17 five-token violators
 //  PLUS 1 multi-line literal volume-anomalies-7d.count = 152;
 //  + 6 mrr + 1 tenant-milo + 6 per-engine-alerts concretes + 23 engine-side cron
 //  = 189; + 12 partnerships-compliance.ts v0.2.0 = 201;
 //  + 20 v0.3.0 collapsed-from-5-token keys (9 conversion + 8 hh-intent + 3
-//  lead-share-audit by-actor) = 221.)
+//  lead-share-audit by-actor) = 221;
+//  + 3 v0.4.0 closing.* tenant-grain trend keys (gci/units/volume.30d) = 224.)
 //  Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
 const EXACT_REGISTRY_RAW = {
     "alerts.active-rules.count": { lifecycle: "active" },
@@ -61,9 +74,12 @@ const EXACT_REGISTRY_RAW = {
     "closing.completed.30d": { lifecycle: "active" },
     "closing.fallthrough-count.30d": { lifecycle: "active" },
     "closing.fallthrough-rate.30d": { lifecycle: "active" },
+    "closing.gci.30d": { lifecycle: "active" },
     "closing.risk-distribution.green": { lifecycle: "active" },
     "closing.risk-distribution.red": { lifecycle: "active" },
     "closing.risk-distribution.yellow": { lifecycle: "active" },
+    "closing.units.30d": { lifecycle: "active" },
+    "closing.volume.30d": { lifecycle: "active" },
     "comms.bounce-rate.platform": { lifecycle: "active" },
     "comms.delivery-rate.platform": { lifecycle: "active" },
     "delivery-rate.24h": { lifecycle: "active" },

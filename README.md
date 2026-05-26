@@ -12,7 +12,7 @@ package is the producer-truth registry — the full **emitted** keyspace — plu
 `listActiveMetricKeys()`, the SOT primitive Platform-Admin consumes as the coverage
 denominator (mirrors `@rello-platform/signals`' `listActiveSignalTypes()`).
 
-## Scope (v0.3.0 — KEYSPACE-SEED + RECONCILE bundle + 5-token DRIFT-FIX)
+## Scope (v0.4.0 — KEYSPACE-SEED + RECONCILE + 5-token DRIFT-FIX + Closing trend keys)
 
 **Producer-side registry ONLY.** This package adds *membership*; the shape validators
 stay. The read-path assertion (step B) is SHADOW-wired at all three read boundaries
@@ -20,6 +20,22 @@ stay. The read-path assertion (step B) is SHADOW-wired at all three read boundar
 `check:metric-keys` build-guard (steps C/D), the ARM hard-reject, and the remaining
 phantom-read whittle (step E, the 98 no-writer reads) are later waves gated on Kelly's
 D-K3 dispositions.
+
+### v0.4.0 — +3 EXACT (Closing Co-Pilot Wave H Phase 4 — tenant-grain trend precompute)
+
+The single warranted Wave-H precompute (H8 lock). `closingCalculator`
+(`Rello/src/lib/metrics/calculators/closing.ts`) gained 3 brokerage-wide 30d trend
+keys, dual-emit platform-wide (`tenantId=null`) + per-customer-tenant:
+
+- `closing.gci.30d` — Σ `CommissionLedgerEntry` GROSS lines for 30d `CLOSING_COMPLETED` deals
+- `closing.volume.30d` — Σ `ClosingTransaction.contractPrice` for those deals
+- `closing.units.30d` — count of those deals
+
+Deal-level sourced (not per-agent `ProductionRecord` rows) so they side-step the Phase-1
+dual-in-house double-count. Per-agent/team/branch reporting stays **live** (Phase 2)
+because the 4-token cap + the composite-unique `(metricKey, tenantId, capturedAt)` carry
+**no agent/team/branch axis** — only tenant-grain keys are namespace-legal. The Phase-3
+Brokerage P&L / trend chart reads these snapshot-first with a live Prisma fallback.
 
 ### v0.3.0 — +20 EXACT (5-token DRIFT-FIX, step E decision-free slice)
 
@@ -51,13 +67,13 @@ separate Kelly decision (D-K3) and are NOT registered here.
 
 ```ts
 import {
-  EXACT_REGISTRY,            // Record<MetricKey, MetricKeyEntry> — 221 exact literals
+  EXACT_REGISTRY,            // Record<MetricKey, MetricKeyEntry> — 224 exact literals
   FAMILY_REGISTRY,           // readonly MetricKeyFamily[] — 21 interpolated prefixes
   CANONICAL_METRIC_KEY_SET,  // ReadonlySet<string> — frozen membership set
   isCanonicalMetricKey,      // (raw) => raw is MetricKey   — exact membership
   matchesMetricFamily,       // (raw) => MetricKeyFamily | null — family-prefix resolution
   listActiveMetricKeys,      // () => readonly MetricKey[]  — the SOT primitive
-  type MetricKey,            // `as const` union of the 221 exact keys
+  type MetricKey,            // `as const` union of the 224 exact keys
 } from "@rello-platform/metric-keys";
 ```
 
@@ -67,13 +83,14 @@ assertion will combine the two.
 
 ## Counts & provenance (KA-verified 2026-05-25)
 
-**221 exact + 21 families** (189 seeded in v0.1.0 + 12 in v0.2.0 + 20 in v0.3.0). Re-derived from producer truth at:
+**224 exact + 21 families** (189 seeded in v0.1.0 + 12 in v0.2.0 + 20 in v0.3.0 + 3 in v0.4.0). Re-derived from producer truth at:
 - Rello `origin/main` `61f7dfc4` (`src/lib/metrics/calculators/**`, `src/lib/billing/mrr.ts`, `src/lib/tenant-milo/calculator.ts`)
 - Milo `17ae0f9c`, Property `bac752fd`, Content `3f7e424`, Drumbeat `257e87d`, Journey `e605f36` (engine-side snapshot crons)
 
 Exact breakdown (189 v0.1.0): 152 Rello calculator literals (169 single-line grep − 17 excluded five-token + 1 multi-line) + 6 `mrr.*` + 1 `tenant-health.milo.composite-engagement` + 6 `engine.<slug>.alerts-open.count` concretes + 23 engine-side cron concretes (Milo 12 · Property 2 · Content 1 · Drumbeat 5 · Journey 3).
 **+12 (v0.2.0):** the `partnerships-compliance.ts` factory writers the SEED's `grep 'metricKey: "'` missed — 6 `lead-share-audit.*` + 6 `referral-edge.*` (all 4-token). See "v0.2.0" above.
 **+20 (v0.3.0):** the 20 collapsed-from-5-token keys — 9 `lead-scoring.conversion.{quadrant,stage}-<bucket>.30d` + 8 `lead-scoring.hh-intent.{temperature,intent}-<bucket>.30d` + 3 `lead-share-audit.by-actor-<actor>.7d.count`. See "v0.3.0" above + the FIXED section below.
+**+3 (v0.4.0):** the 3 Closing Co-Pilot Wave H Phase 4 tenant-grain trend keys — `closing.{gci,units,volume}.30d` (all 3-token, `closing.*` family — consistent with `closing.completed.30d` / `closing.fallthrough-rate.30d`). Emitted by `closingCalculator`, dual-emit platform-wide + per-customer-tenant. See "v0.4.0" above.
 
 `engine.<slug>.alerts-open.count` is seeded as **6 exact concretes** (not a family):
 its dynamic segment is in the *middle*, so it isn't prefix-expressible; `ENGINE_SLUGS`
