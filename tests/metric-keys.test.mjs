@@ -19,9 +19,23 @@ function shapeOk(key) {
   return tokens.every((t) => t.length > 0 && TOKEN_PATTERN.test(t));
 }
 
-describe("EXACT_REGISTRY — 224 canonical emitted literals", () => {
-  it("has exactly 224 entries", () => {
-    assert.equal(Object.keys(EXACT_REGISTRY).length, 224);
+describe("EXACT_REGISTRY — 229 canonical emitted literals", () => {
+  it("has exactly 229 entries", () => {
+    assert.equal(Object.keys(EXACT_REGISTRY).length, 229);
+  });
+
+  it("includes the 5 v0.5.0 engine.content.* seed-gap keys (Content step-E shadow)", () => {
+    const added = [
+      "engine.content.articles-ingested-24h.count",
+      "engine.content.classification-queue-depth.count",
+      "engine.content.engagement-events-24h.count",
+      "engine.content.generation-completions-24h.count",
+      "engine.content.websites-failing.count",
+    ];
+    for (const k of added) {
+      assert.equal(isCanonicalMetricKey(k), true, `${k} should be canonical (v0.5.0)`);
+      assert.equal(shapeOk(k), true, `${k} must pass the 2-4-token shape rule`);
+    }
   });
 
   it("includes the 3 v0.4.0 closing tenant-grain trend keys (gci/units/volume.30d)", () => {
@@ -178,9 +192,9 @@ describe("matchesMetricFamily — family-prefix resolution", () => {
 });
 
 describe("listActiveMetricKeys — SOT primitive", () => {
-  it("returns all 224 active exact keys (coverage denominator)", () => {
+  it("returns all 229 active exact keys (coverage denominator)", () => {
     const active = listActiveMetricKeys();
-    assert.equal(active.length, 224);
+    assert.equal(active.length, 229);
     assert.ok(active.includes("tenant-health.score"));
     assert.ok(active.every((k) => isCanonicalMetricKey(k)));
   });

@@ -96,7 +96,22 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "engine.content.alerts-open.count": {
         readonly lifecycle: "active";
     };
+    readonly "engine.content.articles-ingested-24h.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "engine.content.classification-queue-depth.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "engine.content.engagement-events-24h.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "engine.content.generation-completions-24h.count": {
+        readonly lifecycle: "active";
+    };
     readonly "engine.content.status": {
+        readonly lifecycle: "active";
+    };
+    readonly "engine.content.websites-failing.count": {
         readonly lifecycle: "active";
     };
     readonly "engine.dve.alerts-open.count": {
