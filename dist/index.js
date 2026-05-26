@@ -16,19 +16,31 @@
 // (Rello src/lib/admin/alert-categories.ts) — structural discipline, NOT its keys
 // (that camelCase AlertRule namespace is a SEPARATE vocabulary, out of scope).
 //
-// COUNTS: 201 exact + 21 families. See README for provenance + the 20 EXCLUDED
-// five-token keys (DISCOVERED prod bug — write-rejected, not canonical).
+// COUNTS: 221 exact + 21 families. See README for provenance.
 //
 // v0.2.0 (RECONCILE verified-safe bundle): +12 EXACT from partnerships-compliance.ts
 // (lead-share-audit.* 6 + referral-edge.* 6) — the v0.1.0 SEED omitted that calculator
 // (factory-shorthand `return [{ metricKey, … }]` writes a naive grep missed). Registered
 // as EXACT (NOT families) so the 3 sibling 5-token `lead-share-audit.by-actor-type.*`
-// keys stay flagged in shadow rather than masked by a `lead-share-audit.` family prefix.
-// ── EXACT_REGISTRY — the 201 statically-known emitted literals ──────────────
+// keys stayed flagged in shadow rather than masked by a `lead-share-audit.` family prefix.
+//
+// v0.3.0 (DRIFT-FIX 5-token collapse, step E): the 20 five-token write-rejected keys
+// (the DISCOVERED prod bug — emitted, write-rejected at MAX_TOKENS=4, silently swallowed)
+// were COLLAPSED to ≤4 tokens in their 3 calculators (hyphen-collapse, Milo cron precedent)
+// and registered here as +20 EXACT. The OLD 5-token forms are now gone from the producers;
+// the corrected 4-token forms write successfully. Collapse map (old → new):
+//   lead-scoring.conversion.quadrant-distribution.<b>.30d → lead-scoring.conversion.quadrant-<b>.30d
+//   lead-scoring.conversion.stage-distribution.<b>.30d    → lead-scoring.conversion.stage-<b>.30d
+//   lead-scoring.hh-intent.temperature.<b>.30d            → lead-scoring.hh-intent.temperature-<b>.30d
+//   lead-scoring.hh-intent.intent-type.<b>.30d            → lead-scoring.hh-intent.intent-<b>.30d
+//   lead-share-audit.by-actor-type.<actor>.7d.count       → lead-share-audit.by-actor-<actor>.7d.count
+// ── EXACT_REGISTRY — the 221 statically-known emitted literals ──────────────
 // (169 Rello calculator single-line literals MINUS 17 five-token violators
 //  PLUS 1 multi-line literal volume-anomalies-7d.count = 152;
 //  + 6 mrr + 1 tenant-milo + 6 per-engine-alerts concretes + 23 engine-side cron
-//  = 189; + 12 partnerships-compliance.ts v0.2.0 = 201.)
+//  = 189; + 12 partnerships-compliance.ts v0.2.0 = 201;
+//  + 20 v0.3.0 collapsed-from-5-token keys (9 conversion + 8 hh-intent + 3
+//  lead-share-audit by-actor) = 221.)
 //  Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
 const EXACT_REGISTRY_RAW = {
     "alerts.active-rules.count": { lifecycle: "active" },
@@ -125,14 +137,34 @@ const EXACT_REGISTRY_RAW = {
     "lead-scoring.conversion.active-config.version": { lifecycle: "active" },
     "lead-scoring.conversion.avg-score.30d": { lifecycle: "active" },
     "lead-scoring.conversion.distribution.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.quadrant-accelerate.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.quadrant-educate.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.quadrant-nurture.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.quadrant-priority.30d": { lifecycle: "active" },
     "lead-scoring.conversion.scored-leads.total": { lifecycle: "active" },
+    "lead-scoring.conversion.stage-cold.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.stage-engaged.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.stage-hot.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.stage-qualified.30d": { lifecycle: "active" },
+    "lead-scoring.conversion.stage-warming.30d": { lifecycle: "active" },
     "lead-scoring.hh-intent.active-config.activated-at": { lifecycle: "active" },
     "lead-scoring.hh-intent.active-config.version": { lifecycle: "active" },
     "lead-scoring.hh-intent.active-configs.count": { lifecycle: "active" },
     "lead-scoring.hh-intent.avg-score.30d": { lifecycle: "active" },
     "lead-scoring.hh-intent.distribution.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.intent-equity-access.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.intent-rate-watch.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.intent-refi.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.intent-reverse-mortgage.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.intent-sell.30d": { lifecycle: "active" },
     "lead-scoring.hh-intent.per-tenant-override.count": { lifecycle: "active" },
     "lead-scoring.hh-intent.scored-leads.total": { lifecycle: "active" },
+    "lead-scoring.hh-intent.temperature-cold.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.temperature-hot.30d": { lifecycle: "active" },
+    "lead-scoring.hh-intent.temperature-warm.30d": { lifecycle: "active" },
+    "lead-share-audit.by-actor-admin.7d.count": { lifecycle: "active" },
+    "lead-share-audit.by-actor-agent.7d.count": { lifecycle: "active" },
+    "lead-share-audit.by-actor-system.7d.count": { lifecycle: "active" },
     "lead-share-audit.created.30d.count": { lifecycle: "active" },
     "lead-share-audit.created.7d.count": { lifecycle: "active" },
     "lead-share-audit.permission-changed.7d.count": { lifecycle: "active" },

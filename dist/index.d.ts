@@ -294,7 +294,34 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "lead-scoring.conversion.distribution.30d": {
         readonly lifecycle: "active";
     };
+    readonly "lead-scoring.conversion.quadrant-accelerate.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.quadrant-educate.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.quadrant-nurture.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.quadrant-priority.30d": {
+        readonly lifecycle: "active";
+    };
     readonly "lead-scoring.conversion.scored-leads.total": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.stage-cold.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.stage-engaged.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.stage-hot.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.stage-qualified.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.conversion.stage-warming.30d": {
         readonly lifecycle: "active";
     };
     readonly "lead-scoring.hh-intent.active-config.activated-at": {
@@ -312,10 +339,43 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "lead-scoring.hh-intent.distribution.30d": {
         readonly lifecycle: "active";
     };
+    readonly "lead-scoring.hh-intent.intent-equity-access.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.intent-rate-watch.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.intent-refi.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.intent-reverse-mortgage.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.intent-sell.30d": {
+        readonly lifecycle: "active";
+    };
     readonly "lead-scoring.hh-intent.per-tenant-override.count": {
         readonly lifecycle: "active";
     };
     readonly "lead-scoring.hh-intent.scored-leads.total": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.temperature-cold.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.temperature-hot.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-scoring.hh-intent.temperature-warm.30d": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.by-actor-admin.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.by-actor-agent.7d.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "lead-share-audit.by-actor-system.7d.count": {
         readonly lifecycle: "active";
     };
     readonly "lead-share-audit.created.30d.count": {

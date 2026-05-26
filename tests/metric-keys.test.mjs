@@ -19,9 +19,9 @@ function shapeOk(key) {
   return tokens.every((t) => t.length > 0 && TOKEN_PATTERN.test(t));
 }
 
-describe("EXACT_REGISTRY — 201 canonical emitted literals", () => {
-  it("has exactly 201 entries", () => {
-    assert.equal(Object.keys(EXACT_REGISTRY).length, 201);
+describe("EXACT_REGISTRY — 221 canonical emitted literals", () => {
+  it("has exactly 221 entries", () => {
+    assert.equal(Object.keys(EXACT_REGISTRY).length, 221);
   });
 
   it("includes the 12 v0.2.0 partnerships-compliance keys (lead-share-audit + referral-edge)", () => {
@@ -61,21 +61,50 @@ describe("EXACT_REGISTRY — 201 canonical emitted literals", () => {
     for (const k of keys) assert.ok(CANONICAL_METRIC_KEY_SET.has(k), `set missing ${k}`);
   });
 
-  it("excludes the 20 known five-token keys (DISCOVERED prod bug, not canonical)", () => {
-    const excluded = [
+  it("still excludes the OLD 5-token forms (v0.3.0 collapsed the producers — old forms never canonical)", () => {
+    // v0.3.0 (DRIFT-FIX) collapsed these 20 producers to ≤4 tokens. The OLD
+    // 5-token strings remain non-members: nothing writes them anymore.
+    const oldFiveToken = [
       "lead-scoring.conversion.quadrant-distribution.accelerate.30d",
       "lead-scoring.conversion.stage-distribution.hot.30d",
       "lead-scoring.hh-intent.intent-type.refi.30d",
       "lead-scoring.hh-intent.temperature.warm.30d",
-      // v0.2.0 triage: the 3 sibling by-actor-type keys in partnerships-compliance.ts
-      // are 5-token + write-rejected. Registered as EXACT (not a lead-share-audit.
-      // family) precisely so these stay flagged in shadow rather than masked.
       "lead-share-audit.by-actor-type.admin.7d.count",
       "lead-share-audit.by-actor-type.agent.7d.count",
       "lead-share-audit.by-actor-type.system.7d.count",
     ];
-    for (const k of excluded) {
-      assert.equal(isCanonicalMetricKey(k), false, `${k} should NOT be canonical (5-token, write-rejected)`);
+    for (const k of oldFiveToken) {
+      assert.equal(isCanonicalMetricKey(k), false, `${k} should NOT be canonical (old 5-token form, collapsed in v0.3.0)`);
+    }
+  });
+
+  it("includes the 20 v0.3.0 collapsed keys (5-token DISCOVERED bug fixed; writes now succeed)", () => {
+    const collapsed = [
+      "lead-scoring.conversion.quadrant-accelerate.30d",
+      "lead-scoring.conversion.quadrant-educate.30d",
+      "lead-scoring.conversion.quadrant-nurture.30d",
+      "lead-scoring.conversion.quadrant-priority.30d",
+      "lead-scoring.conversion.stage-cold.30d",
+      "lead-scoring.conversion.stage-engaged.30d",
+      "lead-scoring.conversion.stage-hot.30d",
+      "lead-scoring.conversion.stage-qualified.30d",
+      "lead-scoring.conversion.stage-warming.30d",
+      "lead-scoring.hh-intent.temperature-cold.30d",
+      "lead-scoring.hh-intent.temperature-hot.30d",
+      "lead-scoring.hh-intent.temperature-warm.30d",
+      "lead-scoring.hh-intent.intent-equity-access.30d",
+      "lead-scoring.hh-intent.intent-rate-watch.30d",
+      "lead-scoring.hh-intent.intent-refi.30d",
+      "lead-scoring.hh-intent.intent-reverse-mortgage.30d",
+      "lead-scoring.hh-intent.intent-sell.30d",
+      "lead-share-audit.by-actor-admin.7d.count",
+      "lead-share-audit.by-actor-agent.7d.count",
+      "lead-share-audit.by-actor-system.7d.count",
+    ];
+    assert.equal(collapsed.length, 20);
+    for (const k of collapsed) {
+      assert.equal(isCanonicalMetricKey(k), true, `${k} should be canonical (v0.3.0 collapsed)`);
+      assert.equal(shapeOk(k), true, `${k} must pass the 2-4-token shape rule`);
     }
   });
 });
@@ -137,9 +166,9 @@ describe("matchesMetricFamily — family-prefix resolution", () => {
 });
 
 describe("listActiveMetricKeys — SOT primitive", () => {
-  it("returns all 201 active exact keys (coverage denominator)", () => {
+  it("returns all 221 active exact keys (coverage denominator)", () => {
     const active = listActiveMetricKeys();
-    assert.equal(active.length, 201);
+    assert.equal(active.length, 221);
     assert.ok(active.includes("tenant-health.score"));
     assert.ok(active.every((k) => isCanonicalMetricKey(k)));
   });
