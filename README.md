@@ -12,7 +12,7 @@ package is the producer-truth registry — the full **emitted** keyspace — plu
 `listActiveMetricKeys()`, the SOT primitive Platform-Admin consumes as the coverage
 denominator (mirrors `@rello-platform/signals`' `listActiveSignalTypes()`).
 
-## Scope (v0.4.0 — KEYSPACE-SEED + RECONCILE + 5-token DRIFT-FIX + Closing trend keys)
+## Scope (v0.5.0 — KEYSPACE-SEED + RECONCILE + 5-token DRIFT-FIX + Closing trend keys + Content seed-gap)
 
 **Producer-side registry ONLY.** This package adds *membership*; the shape validators
 stay. The read-path assertion (step B) is SHADOW-wired at all three read boundaries
@@ -20,6 +20,26 @@ stay. The read-path assertion (step B) is SHADOW-wired at all three read boundar
 `check:metric-keys` build-guard (steps C/D), the ARM hard-reject, and the remaining
 phantom-read whittle (step E, the 98 no-writer reads) are later waves gated on Kelly's
 D-K3 dispositions.
+
+### v0.5.0 — +5 EXACT (METRIC-WHITTLE — Content-Engine step-E seed-gap register)
+
+The metric step-E Content-Engine shadow surfaced 5 valid-but-unregistered
+`engine.content.*` keys written by the Content-Engine calculators (Content
+`origin/main` `45fec29`). All 4-token, shape-legal, with no registry membership —
+so they were grandfathered into Content's shadow baseline. Registering them EXACT
+makes this registry their SOT and converts those 5 baseline entries to **STALE**, so
+Content can later arm with **0 residual**:
+
+- `engine.content.articles-ingested-24h.count`
+- `engine.content.classification-queue-depth.count`
+- `engine.content.engagement-events-24h.count`
+- `engine.content.generation-completions-24h.count`
+- `engine.content.websites-failing.count`
+
+Seeded as **EXACT concretes, not an `engine.content.` family** — the dynamic segment
+is the *middle* engine slug, so it isn't prefix-expressible (mirrors the
+`engine.<slug>.alerts-open.count` rationale; `ENGINE_SLUGS` is a bounded set).
+Package-only change — engine re-pins to v0.5.0 ride the later ARM batch.
 
 ### v0.4.0 — +3 EXACT (Closing Co-Pilot Wave H Phase 4 — tenant-grain trend precompute)
 
@@ -67,13 +87,13 @@ separate Kelly decision (D-K3) and are NOT registered here.
 
 ```ts
 import {
-  EXACT_REGISTRY,            // Record<MetricKey, MetricKeyEntry> — 224 exact literals
+  EXACT_REGISTRY,            // Record<MetricKey, MetricKeyEntry> — 229 exact literals
   FAMILY_REGISTRY,           // readonly MetricKeyFamily[] — 21 interpolated prefixes
   CANONICAL_METRIC_KEY_SET,  // ReadonlySet<string> — frozen membership set
   isCanonicalMetricKey,      // (raw) => raw is MetricKey   — exact membership
   matchesMetricFamily,       // (raw) => MetricKeyFamily | null — family-prefix resolution
   listActiveMetricKeys,      // () => readonly MetricKey[]  — the SOT primitive
-  type MetricKey,            // `as const` union of the 224 exact keys
+  type MetricKey,            // `as const` union of the 229 exact keys
 } from "@rello-platform/metric-keys";
 ```
 
@@ -83,7 +103,7 @@ assertion will combine the two.
 
 ## Counts & provenance (KA-verified 2026-05-25)
 
-**224 exact + 21 families** (189 seeded in v0.1.0 + 12 in v0.2.0 + 20 in v0.3.0 + 3 in v0.4.0). Re-derived from producer truth at:
+**229 exact + 21 families** (189 seeded in v0.1.0 + 12 in v0.2.0 + 20 in v0.3.0 + 3 in v0.4.0 + 5 in v0.5.0). Re-derived from producer truth at:
 - Rello `origin/main` `61f7dfc4` (`src/lib/metrics/calculators/**`, `src/lib/billing/mrr.ts`, `src/lib/tenant-milo/calculator.ts`)
 - Milo `17ae0f9c`, Property `bac752fd`, Content `3f7e424`, Drumbeat `257e87d`, Journey `e605f36` (engine-side snapshot crons)
 
@@ -91,6 +111,7 @@ Exact breakdown (189 v0.1.0): 152 Rello calculator literals (169 single-line gre
 **+12 (v0.2.0):** the `partnerships-compliance.ts` factory writers the SEED's `grep 'metricKey: "'` missed — 6 `lead-share-audit.*` + 6 `referral-edge.*` (all 4-token). See "v0.2.0" above.
 **+20 (v0.3.0):** the 20 collapsed-from-5-token keys — 9 `lead-scoring.conversion.{quadrant,stage}-<bucket>.30d` + 8 `lead-scoring.hh-intent.{temperature,intent}-<bucket>.30d` + 3 `lead-share-audit.by-actor-<actor>.7d.count`. See "v0.3.0" above + the FIXED section below.
 **+3 (v0.4.0):** the 3 Closing Co-Pilot Wave H Phase 4 tenant-grain trend keys — `closing.{gci,units,volume}.30d` (all 3-token, `closing.*` family — consistent with `closing.completed.30d` / `closing.fallthrough-rate.30d`). Emitted by `closingCalculator`, dual-emit platform-wide + per-customer-tenant. See "v0.4.0" above.
+**+5 (v0.5.0):** the 5 Content-Engine step-E seed-gap keys — `engine.content.{articles-ingested-24h,classification-queue-depth,engagement-events-24h,generation-completions-24h,websites-failing}.count` (all 4-token). Written by the Content-Engine calculators (Content `45fec29`), seeded EXACT (no `engine.content.` family — middle-segment slug). See "v0.5.0" above.
 
 `engine.<slug>.alerts-open.count` is seeded as **6 exact concretes** (not a family):
 its dynamic segment is in the *middle*, so it isn't prefix-expressible; `ENGINE_SLUGS`

@@ -16,7 +16,7 @@
 // (Rello src/lib/admin/alert-categories.ts) — structural discipline, NOT its keys
 // (that camelCase AlertRule namespace is a SEPARATE vocabulary, out of scope).
 //
-// COUNTS: 224 exact + 21 families. See README for provenance.
+// COUNTS: 229 exact + 21 families. See README for provenance.
 //
 // v0.2.0 (RECONCILE verified-safe bundle): +12 EXACT from partnerships-compliance.ts
 // (lead-share-audit.* 6 + referral-edge.* 6) — the v0.1.0 SEED omitted that calculator
@@ -46,14 +46,29 @@
 //   closing.gci.30d    — Σ CommissionLedgerEntry GROSS lines for 30d CLOSING_COMPLETED deals
 //   closing.volume.30d — Σ ClosingTransaction.contractPrice for those deals
 //   closing.units.30d  — count of those deals
-// ── EXACT_REGISTRY — the 224 statically-known emitted literals ──────────────
+//
+// v0.5.0 (METRIC-WHITTLE — Content-Engine step-E seed-gap register): +5 EXACT
+// engine.content.* keys the metric step-E Content-Engine shadow surfaced as
+// valid-but-unregistered (written by Content-Engine calculators @ Content 45fec29,
+// all 4-token, shape-legal). There is no engine.content. family — the dynamic
+// segment is the MIDDLE engine slug — so each is seeded EXACT (mirrors the engine.
+// <slug>.alerts-open.count rationale). Registering them converts Content's 5
+// grandfathered baseline entries to STALE (this registry is now their SOT) so
+// Content can later arm with 0 residual.
+//   engine.content.articles-ingested-24h.count
+//   engine.content.classification-queue-depth.count
+//   engine.content.engagement-events-24h.count
+//   engine.content.generation-completions-24h.count
+//   engine.content.websites-failing.count
+// ── EXACT_REGISTRY — the 229 statically-known emitted literals ──────────────
 // (169 Rello calculator single-line literals MINUS 17 five-token violators
 //  PLUS 1 multi-line literal volume-anomalies-7d.count = 152;
 //  + 6 mrr + 1 tenant-milo + 6 per-engine-alerts concretes + 23 engine-side cron
 //  = 189; + 12 partnerships-compliance.ts v0.2.0 = 201;
 //  + 20 v0.3.0 collapsed-from-5-token keys (9 conversion + 8 hh-intent + 3
 //  lead-share-audit by-actor) = 221;
-//  + 3 v0.4.0 closing.* tenant-grain trend keys (gci/units/volume.30d) = 224.)
+//  + 3 v0.4.0 closing.* tenant-grain trend keys (gci/units/volume.30d) = 224;
+//  + 5 v0.5.0 engine.content.* seed-gap keys (Content step-E shadow) = 229.)
 //  Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
 const EXACT_REGISTRY_RAW = {
     "alerts.active-rules.count": { lifecycle: "active" },
@@ -84,7 +99,12 @@ const EXACT_REGISTRY_RAW = {
     "comms.delivery-rate.platform": { lifecycle: "active" },
     "delivery-rate.24h": { lifecycle: "active" },
     "engine.content.alerts-open.count": { lifecycle: "active" },
+    "engine.content.articles-ingested-24h.count": { lifecycle: "active" },
+    "engine.content.classification-queue-depth.count": { lifecycle: "active" },
+    "engine.content.engagement-events-24h.count": { lifecycle: "active" },
+    "engine.content.generation-completions-24h.count": { lifecycle: "active" },
     "engine.content.status": { lifecycle: "active" },
+    "engine.content.websites-failing.count": { lifecycle: "active" },
     "engine.dve.alerts-open.count": { lifecycle: "active" },
     "engine.dve.queue-counts.failed": { lifecycle: "active" },
     "engine.dve.queue-counts.processing": { lifecycle: "active" },
