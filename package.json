@@ -1,6 +1,6 @@
 {
   "name": "@rello-platform/metric-keys",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Canonical PlatformMetricSnapshot metricKey registry for the Rello platform — exact emitted literals + interpolated family prefixes + listActiveMetricKeys() SOT primitive.",
   "type": "module",
   "main": "./dist/index.js",

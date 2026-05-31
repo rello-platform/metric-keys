@@ -16,7 +16,7 @@
 // (Rello src/lib/admin/alert-categories.ts) — structural discipline, NOT its keys
 // (that camelCase AlertRule namespace is a SEPARATE vocabulary, out of scope).
 //
-// COUNTS: 229 exact + 21 families. See README for provenance.
+// COUNTS: 232 exact + 21 families. See README for provenance.
 //
 // v0.2.0 (RECONCILE verified-safe bundle): +12 EXACT from partnerships-compliance.ts
 // (lead-share-audit.* 6 + referral-edge.* 6) — the v0.1.0 SEED omitted that calculator
@@ -60,7 +60,20 @@
 //   engine.content.engagement-events-24h.count
 //   engine.content.generation-completions-24h.count
 //   engine.content.websites-failing.count
-// ── EXACT_REGISTRY — the 229 statically-known emitted literals ──────────────
+//
+// v0.6.0 (AUDITLOG-BOOT-PREFLIGHT-TELEMETRY-RELOCATION): +3 EXACT
+// platform.provisioning.* keys for the env-mirror preflight telemetry relocated
+// OFF AuditLog (where it was ~95% of rows) onto PlatformMetricSnapshot per the
+// Rule-D cron-telemetry carve-out. Daily-grain upsert, tenantId:null, one key
+// per runtime so the start-of-UTC-day truncation can't collapse the two
+// runtimes' rows; per-pair detail rides in dimensions.pairs[]. Written by
+// src/lib/webhooks/provisioning-core.ts (NOT a metrics calculator — outside the
+// check:metric-keys EMIT scan surface, hence seeded here for SOT completeness +
+// future read-safety). Superseded the filing's proposed EnvMirrorCheck table.
+//   platform.provisioning.boot-check-rello.count    (rello-railway boot fire)
+//   platform.provisioning.boot-check-trigger.count  (trigger-dev-prod cron fire)
+//   platform.provisioning.env-divergence.count      (cross-runtime comparator)
+// ── EXACT_REGISTRY — the 232 statically-known emitted literals ──────────────
 // (169 Rello calculator single-line literals MINUS 17 five-token violators
 //  PLUS 1 multi-line literal volume-anomalies-7d.count = 152;
 //  + 6 mrr + 1 tenant-milo + 6 per-engine-alerts concretes + 23 engine-side cron
@@ -68,7 +81,8 @@
 //  + 20 v0.3.0 collapsed-from-5-token keys (9 conversion + 8 hh-intent + 3
 //  lead-share-audit by-actor) = 221;
 //  + 3 v0.4.0 closing.* tenant-grain trend keys (gci/units/volume.30d) = 224;
-//  + 5 v0.5.0 engine.content.* seed-gap keys (Content step-E shadow) = 229.)
+//  + 5 v0.5.0 engine.content.* seed-gap keys (Content step-E shadow) = 229;
+//  + 3 v0.6.0 platform.provisioning.* boot-preflight telemetry-relocation keys = 232.)
 //  Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
 const EXACT_REGISTRY_RAW = {
     "alerts.active-rules.count": { lifecycle: "active" },
@@ -253,6 +267,9 @@ const EXACT_REGISTRY_RAW = {
     "platform-settings.admin-role.count": { lifecycle: "active" },
     "platform-settings.blocked-ip.count": { lifecycle: "active" },
     "platform-settings.feature-flag.count": { lifecycle: "active" },
+    "platform.provisioning.boot-check-rello.count": { lifecycle: "active" },
+    "platform.provisioning.boot-check-trigger.count": { lifecycle: "active" },
+    "platform.provisioning.env-divergence.count": { lifecycle: "active" },
     "provisioning.failures-24h.count": { lifecycle: "active" },
     "referral-edge.confirmed.30d.count": { lifecycle: "active" },
     "referral-edge.confirmed.7d.count": { lifecycle: "active" },

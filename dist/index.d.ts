@@ -558,6 +558,15 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "platform-settings.feature-flag.count": {
         readonly lifecycle: "active";
     };
+    readonly "platform.provisioning.boot-check-rello.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "platform.provisioning.boot-check-trigger.count": {
+        readonly lifecycle: "active";
+    };
+    readonly "platform.provisioning.env-divergence.count": {
+        readonly lifecycle: "active";
+    };
     readonly "provisioning.failures-24h.count": {
         readonly lifecycle: "active";
     };
