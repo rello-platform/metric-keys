@@ -12,7 +12,7 @@ package is the producer-truth registry — the full **emitted** keyspace — plu
 `listActiveMetricKeys()`, the SOT primitive Platform-Admin consumes as the coverage
 denominator (mirrors `@rello-platform/signals`' `listActiveSignalTypes()`).
 
-## Scope (v0.5.0 — KEYSPACE-SEED + RECONCILE + 5-token DRIFT-FIX + Closing trend keys + Content seed-gap)
+## Scope (v0.7.0 — KEYSPACE-SEED + RECONCILE + 5-token DRIFT-FIX + Closing trend keys + Content seed-gap + boot-preflight telemetry + Rate-Engine Overview)
 
 **Producer-side registry ONLY.** This package adds *membership*; the shape validators
 stay. The read-path assertion (step B) is SHADOW-wired at all three read boundaries
@@ -20,6 +20,32 @@ stay. The read-path assertion (step B) is SHADOW-wired at all three read boundar
 `check:metric-keys` build-guard (steps C/D), the ARM hard-reject, and the remaining
 phantom-read whittle (step E, the 98 no-writer reads) are later waves gated on Kelly's
 D-K3 dispositions.
+
+### v0.7.0 — +1 EXACT (Rate-Engine Overview health calculator fast-follow)
+
+The Rate Engine admin lib (`Rello/src/lib/admin/rate-engine.ts`) deliberately deferred
+its `rate-engine.health` snapshot key + the `rateEngineCalculator` to a fast-follow
+"paired with the `@rello-platform/metric-keys` bump" (06-PLATFORM-ADMIN-CONSOLE §0/§3
+recon §4) — this is that bump. The new Rello-side calculator maps
+`computeRateEngineHealth()`'s `HealthLevel` rollup to a single daily-grain numeric
+snapshot (`green`→2 / `yellow`→1 / `red`→0, `tenantId:null`) so the §0 Overview tab can
+trend the Rate Engine rollup. 2-token key, `validateMetricKey`-legal:
+
+- `rate-engine.health`
+
+Package-only change here (the calculator + registration land in Rello in the paired PR,
+which re-pins to v0.7.0).
+
+### v0.6.0 — +3 EXACT (AuditLog boot-preflight telemetry relocation)
+
+3 `platform.provisioning.*` keys for the env-mirror preflight telemetry relocated off
+AuditLog onto `PlatformMetricSnapshot` (Rule-D cron-telemetry carve-out). Written by
+`src/lib/webhooks/provisioning-core.ts` (not a metrics calculator), seeded here for SOT
+completeness + future read-safety:
+
+- `platform.provisioning.boot-check-rello.count`
+- `platform.provisioning.boot-check-trigger.count`
+- `platform.provisioning.env-divergence.count`
 
 ### v0.5.0 — +5 EXACT (METRIC-WHITTLE — Content-Engine step-E seed-gap register)
 
@@ -103,7 +129,7 @@ assertion will combine the two.
 
 ## Counts & provenance (KA-verified 2026-05-25)
 
-**229 exact + 21 families** (189 seeded in v0.1.0 + 12 in v0.2.0 + 20 in v0.3.0 + 3 in v0.4.0 + 5 in v0.5.0). Re-derived from producer truth at:
+**233 exact + 21 families** (189 seeded in v0.1.0 + 12 in v0.2.0 + 20 in v0.3.0 + 3 in v0.4.0 + 5 in v0.5.0 + 3 in v0.6.0 + 1 in v0.7.0). Re-derived from producer truth at:
 - Rello `origin/main` `61f7dfc4` (`src/lib/metrics/calculators/**`, `src/lib/billing/mrr.ts`, `src/lib/tenant-milo/calculator.ts`)
 - Milo `17ae0f9c`, Property `bac752fd`, Content `3f7e424`, Drumbeat `257e87d`, Journey `e605f36` (engine-side snapshot crons)
 
@@ -112,6 +138,8 @@ Exact breakdown (189 v0.1.0): 152 Rello calculator literals (169 single-line gre
 **+20 (v0.3.0):** the 20 collapsed-from-5-token keys — 9 `lead-scoring.conversion.{quadrant,stage}-<bucket>.30d` + 8 `lead-scoring.hh-intent.{temperature,intent}-<bucket>.30d` + 3 `lead-share-audit.by-actor-<actor>.7d.count`. See "v0.3.0" above + the FIXED section below.
 **+3 (v0.4.0):** the 3 Closing Co-Pilot Wave H Phase 4 tenant-grain trend keys — `closing.{gci,units,volume}.30d` (all 3-token, `closing.*` family — consistent with `closing.completed.30d` / `closing.fallthrough-rate.30d`). Emitted by `closingCalculator`, dual-emit platform-wide + per-customer-tenant. See "v0.4.0" above.
 **+5 (v0.5.0):** the 5 Content-Engine step-E seed-gap keys — `engine.content.{articles-ingested-24h,classification-queue-depth,engagement-events-24h,generation-completions-24h,websites-failing}.count` (all 4-token). Written by the Content-Engine calculators (Content `45fec29`), seeded EXACT (no `engine.content.` family — middle-segment slug). See "v0.5.0" above.
+**+3 (v0.6.0):** the 3 `platform.provisioning.{boot-check-rello,boot-check-trigger,env-divergence}.count` boot-preflight telemetry keys relocated off AuditLog onto `PlatformMetricSnapshot`, written by `provisioning-core.ts`. See "v0.6.0" above.
+**+1 (v0.7.0):** the `rate-engine.health` Overview-rollup key (2-token) emitted by the new `rateEngineCalculator`, mapping `computeRateEngineHealth()`'s green/yellow/red rollup to 2/1/0. See "v0.7.0" above.
 
 `engine.<slug>.alerts-open.count` is seeded as **6 exact concretes** (not a family):
 its dynamic segment is in the *middle*, so it isn't prefix-expressible; `ENGINE_SLUGS`

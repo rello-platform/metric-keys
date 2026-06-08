@@ -16,7 +16,7 @@
 // (Rello src/lib/admin/alert-categories.ts) — structural discipline, NOT its keys
 // (that camelCase AlertRule namespace is a SEPARATE vocabulary, out of scope).
 //
-// COUNTS: 232 exact + 21 families. See README for provenance.
+// COUNTS: 233 exact + 21 families. See README for provenance.
 //
 // v0.2.0 (RECONCILE verified-safe bundle): +12 EXACT from partnerships-compliance.ts
 // (lead-share-audit.* 6 + referral-edge.* 6) — the v0.1.0 SEED omitted that calculator
@@ -73,6 +73,17 @@
 //   platform.provisioning.boot-check-rello.count    (rello-railway boot fire)
 //   platform.provisioning.boot-check-trigger.count  (trigger-dev-prod cron fire)
 //   platform.provisioning.env-divergence.count      (cross-runtime comparator)
+//
+// v0.7.0 (RATE-ENGINE-OVERVIEW-HEALTH-CALCULATOR fast-follow): +1 EXACT
+// rate-engine.health key for the §0 Rate Engine Overview health rollup
+// (06-PLATFORM-ADMIN-CONSOLE §0/§3). The Rate Engine admin lib
+// (Rello src/lib/admin/rate-engine.ts) DELIBERATELY DEFERRED this snapshot key
+// + the rateEngineCalculator to a fast-follow "paired with the
+// @rello-platform/metric-keys bump" — this is that bump. The calculator maps
+// computeRateEngineHealth()'s HealthLevel rollup (green=2/yellow=1/red=0) to a
+// single daily-grain numeric snapshot (tenantId:null) consumed by the Overview
+// tab trend. 2-token key (validateMetricKey legal: 2-4 tokens, [a-z0-9-]).
+//   rate-engine.health  (ingest+detection+coverage rollup, green/yellow/red → 2/1/0)
 
 export interface MetricKeyEntry {
   /** Lifecycle of the key in the canonical registry. Room for tier/owner later. */
@@ -89,7 +100,7 @@ export interface MetricKeyFamily {
   readonly description: string;
 }
 
-// ── EXACT_REGISTRY — the 232 statically-known emitted literals ──────────────
+// ── EXACT_REGISTRY — the 233 statically-known emitted literals ──────────────
 // (169 Rello calculator single-line literals MINUS 17 five-token violators
 //  PLUS 1 multi-line literal volume-anomalies-7d.count = 152;
 //  + 6 mrr + 1 tenant-milo + 6 per-engine-alerts concretes + 23 engine-side cron
@@ -98,7 +109,8 @@ export interface MetricKeyFamily {
 //  lead-share-audit by-actor) = 221;
 //  + 3 v0.4.0 closing.* tenant-grain trend keys (gci/units/volume.30d) = 224;
 //  + 5 v0.5.0 engine.content.* seed-gap keys (Content step-E shadow) = 229;
-//  + 3 v0.6.0 platform.provisioning.* boot-preflight telemetry-relocation keys = 232.)
+//  + 3 v0.6.0 platform.provisioning.* boot-preflight telemetry-relocation keys = 232;
+//  + 1 v0.7.0 rate-engine.health Overview-rollup key = 233.)
 //  Every key here passes validateMetricKey (2-4 tokens, [a-z0-9-]).
 const EXACT_REGISTRY_RAW = {
   "alerts.active-rules.count": { lifecycle: "active" },
@@ -287,6 +299,7 @@ const EXACT_REGISTRY_RAW = {
   "platform.provisioning.boot-check-trigger.count": { lifecycle: "active" },
   "platform.provisioning.env-divergence.count": { lifecycle: "active" },
   "provisioning.failures-24h.count": { lifecycle: "active" },
+  "rate-engine.health": { lifecycle: "active" },
   "referral-edge.confirmed.30d.count": { lifecycle: "active" },
   "referral-edge.confirmed.7d.count": { lifecycle: "active" },
   "referral-edge.detected.30d.count": { lifecycle: "active" },

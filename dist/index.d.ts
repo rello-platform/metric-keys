@@ -570,6 +570,9 @@ declare const EXACT_REGISTRY_RAW: {
     readonly "provisioning.failures-24h.count": {
         readonly lifecycle: "active";
     };
+    readonly "rate-engine.health": {
+        readonly lifecycle: "active";
+    };
     readonly "referral-edge.confirmed.30d.count": {
         readonly lifecycle: "active";
     };

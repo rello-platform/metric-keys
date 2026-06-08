@@ -19,9 +19,9 @@ function shapeOk(key) {
   return tokens.every((t) => t.length > 0 && TOKEN_PATTERN.test(t));
 }
 
-describe("EXACT_REGISTRY — 232 canonical emitted literals", () => {
-  it("has exactly 232 entries", () => {
-    assert.equal(Object.keys(EXACT_REGISTRY).length, 232);
+describe("EXACT_REGISTRY — 233 canonical emitted literals", () => {
+  it("has exactly 233 entries", () => {
+    assert.equal(Object.keys(EXACT_REGISTRY).length, 233);
   });
 
   it("includes the 3 v0.6.0 platform.provisioning.* boot-preflight telemetry keys", () => {
@@ -204,10 +204,11 @@ describe("matchesMetricFamily — family-prefix resolution", () => {
 });
 
 describe("listActiveMetricKeys — SOT primitive", () => {
-  it("returns all 232 active exact keys (coverage denominator)", () => {
+  it("returns all 233 active exact keys (coverage denominator)", () => {
     const active = listActiveMetricKeys();
-    assert.equal(active.length, 232);
+    assert.equal(active.length, 233);
     assert.ok(active.includes("tenant-health.score"));
+    assert.ok(active.includes("rate-engine.health"));
     assert.ok(active.every((k) => isCanonicalMetricKey(k)));
   });
 });
