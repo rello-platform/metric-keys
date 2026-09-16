@@ -1,6 +1,6 @@
 {
   "name": "@rello-platform/metric-keys",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Canonical PlatformMetricSnapshot metricKey registry for the Rello platform — exact emitted literals + interpolated family prefixes + listActiveMetricKeys() SOT primitive.",
   "type": "module",
   "main": "./dist/index.js",
@@ -21,10 +21,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "compile": "tsc",
     "typecheck": "tsc --noEmit",
-    "test": "npm run build && node --test tests/*.test.mjs",
-    "prepublishOnly": "npm run build"
+    "test": "npm run compile && node --test tests/*.test.mjs",
+    "prepublishOnly": "npm run compile"
   },
   "repository": {
     "type": "git",
