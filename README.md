@@ -181,7 +181,7 @@ Tracked: `DISCOVERED-METRIC-5TOKEN-KEYS-SILENTLY-DROPPED-conversion-hh-intent-CA
 One canonical list, one place to add a key. For an exact literal, add a
 `"<key>": { lifecycle: "active" }` row to `EXACT_REGISTRY_RAW` in `src/index.ts`. For
 an interpolated key, add a `{ prefix, description }` to `FAMILY_REGISTRY`. Then
-`npm run build` (commit `dist/`) and `npm test`. Cut a new git tag and bump consumer
+`npm run compile` (commit `dist/`) and `npm test`. Cut a new git tag and bump consumer
 pins with forced re-resolution.
 
 ## Packaging discipline (load-bearing)
